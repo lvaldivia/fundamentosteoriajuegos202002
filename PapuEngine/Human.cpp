@@ -11,6 +11,11 @@ void Human::init(float speed, glm::vec2 position)
 	_color.set(185, 0, 0, 255);
 }
 
+
+
+void Human::update() {
+}
+
 Human::~Human()
 {
 }

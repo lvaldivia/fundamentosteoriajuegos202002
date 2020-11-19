@@ -1,14 +1,13 @@
 #pragma once
 #include "Agent.h"
-class Human : public Agent
+class Zombie : public Agent
 {
 protected:
-	glm::vec2 _direction;
-
-public:
+	glm::vec2 direction;
 	void update();
-	Human();
-	~Human();
+public:
+	Zombie();
+	~Zombie();
 	void init(float speed, glm::vec2 position);
 };
 

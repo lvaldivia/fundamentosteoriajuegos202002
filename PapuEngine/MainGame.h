@@ -10,6 +10,8 @@
 #include "InputManager.h"
 #include "Level.h"
 #include "Player.h"
+#include "Zombie.h"
+#include "Human.h"
 
 enum class GameState
 {
@@ -31,6 +33,8 @@ private:
 	void procesInput();
 	GLS_Program _program;
 	vector<Sprite*> _sprites;
+	vector<Zombie*> _zombies;
+	vector<Human*> _humans;
 	Camera2D _camera;
 	SpriteBacth _spriteBacth;
 	InputManager _inputManager;

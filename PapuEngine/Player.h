@@ -7,6 +7,7 @@ private:
 	InputManager* _inputManager;
 public:
 	Player();
+	void update();
 	~Player();
 	void init(float speed, glm::vec2 position, InputManager* inputManager);
 };

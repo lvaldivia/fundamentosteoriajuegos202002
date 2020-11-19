@@ -56,6 +56,7 @@ void Level::parseLevel()
 				playerPosition.y = y * TILE_WIDTH;
 				break;
 			case 'Z':
+				zombiePosition.push_back(glm::vec2(x * TILE_WIDTH, y * TILE_WIDTH));
 				break;
 			case '.':
 				break;

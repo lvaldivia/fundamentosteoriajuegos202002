@@ -1,7 +1,9 @@
+#include <iostream>
+#include <random>
+#include <ctime>
 #include "MainGame.h"
 #include "Sprite.h"
 #include "ImageLoader.h"
-#include <iostream>
 #include "ResourceManager.h"
 #include "PapuEngine.h"
 
@@ -26,8 +28,27 @@ void MainGame::initLevel() {
 	_player = new Player();
 	_currentLevel = 0;
 	_player->init(0.1f, 
-				_levels[_currentLevel]->getPlayerPosition(), nullptr);
+				_levels[_currentLevel]->getPlayerPosition(), &_inputManager);
 	_spriteBacth.init();
+	const std::vector<glm::vec2>& zombiesPosition =
+		_levels[_currentLevel]->getZombiesPosition();
+
+	std::mt19937 randomEngine(time(nullptr));
+	std::uniform_int_distribution<int>randPosX(1,_levels[_currentLevel]->getWidth() -2);
+	std::uniform_int_distribution<int>randPosY(1, _levels[_currentLevel]->getHeight() - 2);
+	for (int i = 0; i < _levels[_currentLevel]->getNumHumans(); i++)
+	{
+		_humans.push_back(new Human());
+		glm::vec2 pos(randPosX(randomEngine) * TILE_WIDTH,
+			randPosY(randomEngine) * TILE_WIDTH);
+		_humans.back()->init(1.0f, pos);
+	}
+
+	for (size_t i = 0; i < zombiesPosition.size(); i++)
+	{
+		_zombies.push_back(new Zombie());
+		_zombies.back()->init(1.3f, zombiesPosition[i]);
+	}
 }
 
 void MainGame::initShaders() {
@@ -59,6 +80,14 @@ void MainGame::draw() {
 	_spriteBacth.begin();
 	_levels[_currentLevel]->draw();
 	_player->draw(_spriteBacth);
+	for (size_t i = 0; i < _zombies.size(); i++)
+	{	
+		_zombies[i]->draw(_spriteBacth);
+	}
+	for (size_t i = 0; i < _humans.size(); i++)
+	{
+		_humans[i]->draw(_spriteBacth);
+	}
 	_spriteBacth.end();
 	_spriteBacth.renderBatch();
 
@@ -96,7 +125,7 @@ void MainGame::procesInput() {
 				break;
 		}
 
-		if (_inputManager.isKeyPressed(SDLK_w)) {
+		/*if (_inputManager.isKeyPressed(SDLK_w)) {
 			_camera.setPosition(_camera.getPosition() + glm::vec2(0.0, CAMERA_SPEED));
 		}
 		if (_inputManager.isKeyPressed(SDLK_s)) {
@@ -107,7 +136,7 @@ void MainGame::procesInput() {
 		}
 		if (_inputManager.isKeyPressed(SDLK_d)) {
 			_camera.setPosition(_camera.getPosition() + glm::vec2(CAMERA_SPEED, 0.0));
-		}
+		}*/
 		if (_inputManager.isKeyPressed(SDLK_q)) {
 			_camera.setScale(_camera.getScale() + SCALE_SPEED);
 		}
@@ -116,7 +145,7 @@ void MainGame::procesInput() {
 		}
 		if (_inputManager.isKeyPressed(SDL_BUTTON_LEFT)) {
 			glm::vec2 mouseCoords =  _camera.convertScreenToWorl(_inputManager.getMouseCoords());
-			cout << mouseCoords.x << " " << mouseCoords.y << endl;
+			//cout << mouseCoords.x << " " << mouseCoords.y << endl;
 		}
 	}
 }
@@ -128,6 +157,8 @@ void MainGame::update() {
 		draw();
 		_camera.update();
 		_time += 0.002f;
+		_player->update();
+		_camera.setPosition(_player->getPosition());
 	}
 }
 
