@@ -6,9 +6,10 @@ protected:
 	glm::vec2 _direction;
 
 public:
-	void update();
 	Human();
 	~Human();
+	void update(const std::vector<std::string>& levelData,
+		std::vector<Human*>& humans, std::vector<Zombie*>& zombies);
 	void init(float speed, glm::vec2 position);
 };
 

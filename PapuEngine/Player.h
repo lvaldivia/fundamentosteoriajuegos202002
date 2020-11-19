@@ -7,7 +7,8 @@ private:
 	InputManager* _inputManager;
 public:
 	Player();
-	void update();
+	void update(const std::vector<std::string>& levelData,
+		std::vector<Human*>& humans, std::vector<Zombie*>& zombies);
 	~Player();
 	void init(float speed, glm::vec2 position, InputManager* inputManager);
 };

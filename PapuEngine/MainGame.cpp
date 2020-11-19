@@ -157,7 +157,7 @@ void MainGame::update() {
 		draw();
 		_camera.update();
 		_time += 0.002f;
-		_player->update();
+		_player->update(_levels[_currentLevel]->getLevelData(),_humans,_zombies);
 		_camera.setPosition(_player->getPosition());
 	}
 }

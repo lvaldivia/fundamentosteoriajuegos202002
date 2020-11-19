@@ -23,6 +23,10 @@ public:
 	int getHeight()const {
 		return levelData.size();
 	}
+	const std::vector<std::string>& getLevelData() {
+		return levelData;
+	}
+
 	glm::vec2 getPlayerPosition() const {
 		return playerPosition;
 	}

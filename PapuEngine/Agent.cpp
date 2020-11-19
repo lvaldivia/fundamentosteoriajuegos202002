@@ -4,9 +4,6 @@
 #include "Level.h"
 
 
-void Agent::update()
-{
-}
 
 void Agent::checkTilePosition(const std::vector<std::string>& levelData, std::vector<glm::vec2>& collidePosition, float x, float y)
 {
@@ -61,7 +58,17 @@ Agent::~Agent()
 
 bool Agent::collideWithLevel(const std::vector<std::string>& levelData)
 {
-	return false;
+	std::vector<glm::vec2> collideTilePosition;
+	checkTilePosition(levelData, collideTilePosition, _position.x, _position.y);
+	checkTilePosition(levelData, collideTilePosition, _position.x + AGENT_WIDTH, _position.y);
+	checkTilePosition(levelData, collideTilePosition, _position.x, _position.y+ AGENT_WIDTH);
+	checkTilePosition(levelData, collideTilePosition, _position.x + AGENT_WIDTH, _position.y + AGENT_WIDTH);
+	if (collideTilePosition.size() == 0)return false;
+	for (size_t i = 0; i < collideTilePosition.size(); i++)
+	{
+		collidWithTile(collideTilePosition[i]);
+	}
+	return true;
 }
 
 bool Agent::collideWithAgent(Agent* agent)
