@@ -27,7 +27,7 @@ void MainGame::initLevel() {
 	_levels.push_back(new Level("Levels/level1.txt"));
 	_player = new Player();
 	_currentLevel = 0;
-	_player->init(0.1f, 
+	_player->init(5.0f, 
 				_levels[_currentLevel]->getPlayerPosition(), &_inputManager);
 	_spriteBacth.init();
 	const std::vector<glm::vec2>& zombiesPosition =
