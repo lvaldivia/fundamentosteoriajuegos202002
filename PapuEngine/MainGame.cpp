@@ -27,7 +27,7 @@ void MainGame::initLevel() {
 	_levels.push_back(new Level("Levels/level1.txt"));
 	_player = new Player();
 	_currentLevel = 0;
-	_player->init(5.0f, 
+	_player->init(1.0f, 
 				_levels[_currentLevel]->getPlayerPosition(), &_inputManager);
 	_spriteBacth.init();
 	const std::vector<glm::vec2>& zombiesPosition =
@@ -80,13 +80,14 @@ void MainGame::draw() {
 	_spriteBacth.begin();
 	_levels[_currentLevel]->draw();
 	_player->draw(_spriteBacth);
-	for (size_t i = 0; i < _zombies.size(); i++)
-	{	
-		_zombies[i]->draw(_spriteBacth);
-	}
+	
 	for (size_t i = 0; i < _humans.size(); i++)
 	{
 		_humans[i]->draw(_spriteBacth);
+	}
+	for (size_t i = 0; i < _zombies.size(); i++)
+	{
+		_zombies[i]->draw(_spriteBacth);
 	}
 	_spriteBacth.end();
 	_spriteBacth.renderBatch();
@@ -159,6 +160,15 @@ void MainGame::update() {
 		_time += 0.002f;
 		_player->update(_levels[_currentLevel]->getLevelData(),_humans,_zombies);
 		_camera.setPosition(_player->getPosition());
+		for (size_t i = 0; i < _humans.size(); i++)
+		{
+			_humans[i]->update(_levels[_currentLevel]->getLevelData(), _humans, _zombies);
+		}
+
+		for (size_t i = 0; i < _zombies.size(); i++)
+		{
+			_zombies[i]->update(_levels[_currentLevel]->getLevelData(), _humans, _zombies);
+		}
 	}
 }
 
